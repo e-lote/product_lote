@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+	<record model="ir.ui.view" id="purchase_exception_form_view">
+	    <field name="name">purchase.order.form.inherit</field>
+	    <field name="model">purchase.order</field>
+	    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+	    <field name="arch" type="xml">
+	        <data>
+			<notebook>
+				<page string="e-Lote">
+				   <field name="exception_ids">
+					<tree>			
+						<field name="product_id" /> 
+						<field name="reason" /> 
+						<field name="qty" /> 
+					</tree> 
+				   </field>
+				</page>
+			</notebook>
+		</data>
+	    </field>
+	</record>
+
+    </data>
+</openerp>
