@@ -30,8 +30,22 @@ class purchase_order(osv.osv):
 	_name = 'purchase.order'
 	_inherit = 'purchase.order'
 
+	STATE_SELECTION = [
+        	('draft', 'Draft PO'),
+	        ('sent', 'RFQ'),
+        	('bid', 'Bid Received'),
+	        ('confirmed', 'Waiting Approval'),
+        	('approved', 'Purchase Confirmed'),
+	        ('except_picking', 'Shipping Exception'),
+        	('except_invoice', 'Invoice Exception'),
+	        ('done', 'Done'),
+        	('consolidated', 'Consolidated'),
+	        ('cancel', 'Cancelled')
+	    ]
+
 	_columns = {
 		'exception_ids': fields.one2many('purchase.order.exception','order_id','Excepciones'),
+	        'state': fields.selection(STATE_SELECTION, 'Status', readonly=True, help="The status of the purchase order or the quotation request. A request for quotation is a purchase order in a 'Draft' status. Then the order has to be confirmed by the user, the status switch to 'Confirmed'. Then the supplier must confirm the order to change the status to 'Approved'. When the purchase order is paid and received, the status becomes 'Done'. If a cancel action occurs in the invoice or in the reception of goods, the status becomes in exception.", select=True),
 		}
 
 purchase_order()
@@ -114,6 +128,11 @@ class po_merge(osv.osv_memory):
 						'date_planned': line.date_planned,
 						}
 					list_products.append(vals_product)
+			vals_origin_po = {
+				'state': 'consolidated'
+				}
+			return_id = self.pool.get('purchase.order').write(cr,uid,order,vals_origin_po)
+
 		for list_product in list_products:
 			product = self.pool.get('product.product').browse(cr,uid,list_product['product_id'])
 			# import pdb;pdb.set_trace()
