@@ -19,17 +19,16 @@
 #
 ##############################################################################
 {
-    'name': 'PO Merge',
+    'name': 'Lote - Assign Product to Lote',
     'version': '0.1',
-    'category': 'E-Lot',
+    'category': 'E-Lote',
     'description': "",
     'author': 'Moldeo Interactive',
     'website': 'http://business.moldeo.coop/',
     'images': [],
-    'depends': ['purchase'],
+    'depends': ['purchase','product','elote_lote'],
     'demo': [],
-    'data': ['po_view.xml','purchase_view.xml'],
-    # 'data': ['po_view.xml'],
+    'data': ['product_lote_view.xml'],
     'test': [],
     'installable': True,
 }
